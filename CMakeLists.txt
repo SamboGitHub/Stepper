@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Stepper Stepper.cpp src/stepper.cpp )
+add_executable(Stepper Stepper.cpp src/stepper.cpp src/stepper_motor.cpp)
 
 pico_set_program_name(Stepper "Stepper")
 pico_set_program_version(Stepper "0.1")

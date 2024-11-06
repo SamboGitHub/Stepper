@@ -11,11 +11,54 @@
 #include "pico/cyw43_arch.h"
 #include "hardware/uart.h"
 
+#include "include/global.h"
+#include "include/stepper_motor.h"
+#include "include/stepper.h"
+
+#define STEPS 1
+
+Stepper tuning_motor(STEPS, 9,10,11,12);
+StepperMotor stepper_motor(tuning_motor);
+
+enum read_swr_state
+{
+  s_Idle,
+  s_Initialize,
+  s_SendKeyDown,
+  s_Wait_KeyDown_Response,
+  s_Ready_For_SWR,
+  s_RequestSWR,
+  s_Wait_SWR_Response,
+  s_ReadSWR,
+  s_Request_Motor_Turn,
+  s_Motor_Turning,
+  s_Motor_Complete,
+  s_SendKeyUp,
+  s_Wait_KeyUp_Response,
+  s_Completed,
+  s_Sleeping
+};
+read_swr_state state;
+
+unsigned long motor_turn_delay = 1000;
+int requested_turn_count;
+
+
 int main(){
+
+  tuning_motor.setSpeed(60);
+
+
+  // state = s_Initialize;
+  state = s_Idle;
+  requested_turn_count = 200;
+
+
     while (true) 
     
     {
         printf("Hello, world!\n");
+        stepper_motor.Turn(20);
         sleep_ms(1000);
     }
 
